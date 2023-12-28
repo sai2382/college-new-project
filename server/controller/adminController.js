@@ -6,6 +6,7 @@ import Subject from "../models/subject.js";
 import Notice from "../models/notice.js";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
+import marks from "../models/marks.js";
 
 export const adminLogin = async (req, res) => {
   const { username, password } = req.body;
@@ -579,6 +580,27 @@ export const getStudent = async (req, res) => {
     res.status(500).json(errors);
   }
 };
+
+export const getStudent12 = async (req, res) => {
+  try {
+  
+    const errors = { noStudentError: String };
+    const students = await marks.find({});
+
+    if (students.length === 0) {
+      errors.noStudentError = "No Student Found";
+      return res.status(404).json(errors);
+    }
+
+    res.status(200).json({ result: students });
+  } catch (error) {
+    const errors = { backendError: String };
+    errors.backendError = error;
+    res.status(500).json(errors);
+  }
+};
+
+
 export const getAllStudent = async (req, res) => {
   try {
     const students = await Student.find();

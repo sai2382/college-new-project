@@ -10,6 +10,7 @@ import {
   getSubject,
   addStudent,
   getStudent,
+  getStudent12,
   addDepartment,
   getAllStudent,
   getAllFaculty,
@@ -45,6 +46,9 @@ router.post("/addsubject", auth, addSubject);
 router.post("/getsubject", auth, getSubject);
 router.post("/addstudent", auth, addStudent);
 router.post("/getstudent", auth, getStudent);
+
+router.get("/getstudent12",getStudent12);
+
 router.post("/getnotice", auth, getNotice);
 router.post("/getadmin", auth, getAdmin);
 router.post("/deleteadmin", auth, deleteAdmin);

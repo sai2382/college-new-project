@@ -158,7 +158,7 @@ export const testResult = async (req, res) => {
         student: student._id,
         exam: test[i]._id,
       });
-      console.log(marks,subject);
+
       if (marks) {
         var temp = {
           marks: marks.marks,

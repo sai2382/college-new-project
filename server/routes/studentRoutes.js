@@ -16,4 +16,5 @@ router.post("/updateprofile", auth, updateStudent);
 router.post("/testresult", auth, testResult);
 router.post("/attendance", auth, attendance);
 
+
 export default router;

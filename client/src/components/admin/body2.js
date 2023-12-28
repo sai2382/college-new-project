@@ -1,82 +1,89 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Chart from 'chart.js/auto';
+import Spinner from "../../utils/Spinner";
 
 const Charts = () => {
+  const [dataset1, setDataset1] = useState([]);
+  const [data2, setd1] = useState([40,50,67,59]);
+  const [data234, setd12] = useState([40,50,77.42]);
+  const [data2345, setd123] = useState([40,77,71,59]);
+  const [loading, setLoading] = useState(false);
+
   useEffect(() => {
-    const destroyChart = (chartInstance) => {
-      if (chartInstance) {
-        chartInstance.destroy();
+    const fetchData = async () => {
+      try {
+        setLoading(true);
+        const url = 'http://localhost:5000/api/admin/getstudent12';
+        const response = await fetch(url, { method: 'GET' });
+
+        if (!response.ok) {
+          throw new Error('Network response was not ok.');
+        }
+
+        const data = await response.json();
+
+        if (Array.isArray(data.result)) {
+          const dataset = data.result.map(item => item.marks);
+          setDataset1(dataset);
+        } else {
+          console.log('Data.result is not an array:', data.result);
+        }
+      } catch (error) {
+        console.log('Error:', error);
+      } finally {
+        setLoading(false);
       }
     };
 
-    // Data for the bar chart
+    fetchData();
+  }, []);
+
+  const destroyChart = (chartInstance) => {
+    if (chartInstance) {
+      chartInstance.destroy();
+    }
+  };
+
+  const renderCharts = (data) => {
     const barData = {
-      labels: ['Test1', 'Test2', 'Test3'],
+     labels : Array.from({ length: data.length }, (_, index) => `Test${index + 1}`),
       datasets: [
         {
           label: 'Mock 1',
-          data: [10, 24, 36],
-          backgroundColor: 'pink',
-        },
-        {
-          label: 'Mock 2',
-          data: [10, 24, 77],
+          data,
           backgroundColor: 'blue',
         },
       ],
     };
 
-    // Options for the bar chart
     const barOptions = {
-      scales: {
-        x: {
-          type: 'category',
-          labels: barData.labels,
-        },
-        y: {
-          beginAtZero: true,
-        },
-      },
+      // ... (existing options)
     };
 
-    // Data for the line chart
     const lineData = {
-      labels: ['Test1', 'Test2', 'Test3','Test4','Test5'],
+       labels : Array.from({ length: data.length }, (_, index) => `Test${index + 1}`),
       datasets: [
         {
           label: 'Line Data',
-          data: [20, 10, 60,75,30],
+          data,
           borderColor: 'green',
           fill: false,
         },
-       
       ],
     };
 
-    // Options for the line chart
     const lineOptions = {
-      scales: {
-        x: {
-          type: 'category',
-          labels: lineData.labels,
-        },
-        y: {
-          beginAtZero: true,
-        },
-      },
+      // ... (existing options)
     };
 
-    // Get the canvas elements
     const barCtx = document.getElementById('barChart');
     const lineCtx = document.getElementById('lineChart');
 
-    // Destroy existing charts if they exist
     const barChartInstance = barCtx && Chart.getChart(barCtx);
     const lineChartInstance = lineCtx && Chart.getChart(lineCtx);
     destroyChart(barChartInstance);
     destroyChart(lineChartInstance);
 
-    // Initialize the Bar chart
     if (barCtx) {
       new Chart(barCtx, {
         type: 'bar',
@@ -85,7 +92,6 @@ const Charts = () => {
       });
     }
 
-    // Initialize the Line chart
     if (lineCtx) {
       new Chart(lineCtx, {
         type: 'line',
@@ -93,17 +99,235 @@ const Charts = () => {
         options: lineOptions,
       });
     }
-  }, []); // Run the effect only once after component mount
+  };
+  
 
+
+
+
+
+  const renderCharts4 = (data2345) => {
+    const barData = {
+     labels : Array.from({ length: data2345.length }, (_, index) => `Test${index + 1}`),
+      datasets: [
+        {
+          label: 'Mock 1',
+          data:data2345,
+          backgroundColor: 'blue',
+        },
+      ],
+    };
+
+    const barOptions = {
+      // ... (existing options)
+    };
+
+    const lineData = {
+       labels : Array.from({ length: data2345.length }, (_, index) => `Test${index + 1}`),
+      datasets: [
+        {
+          label: 'Line Data',
+          data:data2345,
+          borderColor: 'green',
+          fill: false,
+        },
+      ],
+    };
+
+    const lineOptions = {
+      // ... (existing options)
+    };
+
+    const barCtx = document.getElementById('barChart');
+    const lineCtx = document.getElementById('lineChart');
+
+    const barChartInstance = barCtx && Chart.getChart(barCtx);
+    const lineChartInstance = lineCtx && Chart.getChart(lineCtx);
+    destroyChart(barChartInstance);
+    destroyChart(lineChartInstance);
+
+    if (barCtx) {
+      new Chart(barCtx, {
+        type: 'bar',
+        data: barData,
+        options: barOptions,
+      });
+    }
+
+    if (lineCtx) {
+      new Chart(lineCtx, {
+        type: 'line',
+        data: lineData,
+        options: lineOptions,
+      });
+    }
+  };
+
+
+
+
+
+
+  const renderCharts3 = (data234) => {
+    const barData = {
+     labels : Array.from({ length: data234.length }, (_, index) => `Test${index + 1}`),
+      datasets: [
+        {
+          label: 'Mock 1',
+          data:data234,
+          backgroundColor: 'blue',
+        },
+      ],
+    };
+
+    const barOptions = {
+      // ... (existing options)
+    };
+
+    const lineData = {
+       labels : Array.from({ length: data234.length }, (_, index) => `Test${index + 1}`),
+      datasets: [
+        {
+          label: 'Line Data',
+          data:data234,
+          borderColor: 'green',
+          fill: false,
+        },
+      ],
+    };
+
+    const lineOptions = {
+      // ... (existing options)
+    };
+
+    const barCtx = document.getElementById('barChart');
+    const lineCtx = document.getElementById('lineChart');
+
+    const barChartInstance = barCtx && Chart.getChart(barCtx);
+    const lineChartInstance = lineCtx && Chart.getChart(lineCtx);
+    destroyChart(barChartInstance);
+    destroyChart(lineChartInstance);
+
+    if (barCtx) {
+      new Chart(barCtx, {
+        type: 'bar',
+        data: barData,
+        options: barOptions,
+      });
+    }
+
+    if (lineCtx) {
+      new Chart(lineCtx, {
+        type: 'line',
+        data: lineData,
+        options: lineOptions,
+      });
+    }
+  };
+
+
+
+
+  
+  const renderCharts2 = (data2) => {
+    const barData = {
+     labels : Array.from({ length: data2.length }, (_, index) => `Test${index + 1}`),
+      datasets: [
+        {
+          label: 'Mock 1',
+          data:data2,
+          backgroundColor: 'blue',
+        },
+      ],
+    };
+
+    const barOptions = {
+      // ... (existing options)
+    };
+
+    const lineData = {
+       labels : Array.from({ length: data2.length }, (_, index) => `Test${index + 1}`),
+      datasets: [
+        {
+          label: 'Line Data',
+          data:data2,
+          borderColor: 'green',
+          fill: false,
+        },
+      ],
+    };
+
+    const lineOptions = {
+      // ... (existing options)
+    };
+
+    const barCtx = document.getElementById('barChart');
+    const lineCtx = document.getElementById('lineChart');
+
+    const barChartInstance = barCtx && Chart.getChart(barCtx);
+    const lineChartInstance = lineCtx && Chart.getChart(lineCtx);
+    destroyChart(barChartInstance);
+    destroyChart(lineChartInstance);
+
+    if (barCtx) {
+      new Chart(barCtx, {
+        type: 'bar',
+        data: barData,
+        options: barOptions,
+      });
+    }
+
+    if (lineCtx) {
+      new Chart(lineCtx, {
+        type: 'line',
+        data: lineData,
+        options: lineOptions,
+      });
+    }
+  };
+  renderCharts(dataset1);
+  const handleButtonClick = (buttonNumber) => {
+    // Handle different data sets based on buttonNumber
+    // For now, let's assume buttonNumber 1 corresponds to dataset1
+    renderCharts(dataset1);
+  };
+  const handleButtonClick2 = () => {
+    // Handle different data sets based on buttonNumber
+    // For now, let's assume buttonNumber 1 corresponds to dataset1
+    renderCharts2(data2);
+
+   
+  };
+  const handleButtonClick3 = () => {
+    // Handle different data sets based on buttonNumber
+    // For now, let's assume buttonNumber 1 corresponds to dataset1
+    renderCharts(data234);
+  };
+  const handleButtonClick4 = () => {
+    // Handle different data sets based on buttonNumber
+    // For now, let's assume buttonNumber 1 corresponds to dataset1
+    renderCharts(data2345);
+  };
   return (
-    <div style={{ display: 'flex' }}>
-      <div style={{ flex: 1 }}>
-        <h2>Bar Chart</h2>
-        <canvas id="barChart" width="400" height="400"></canvas>
+    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom: '20px' }}>
+      <h2>Charts</h2>
+      <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center' }}>
+      <button style= {{ margin: '0 10px' }} onClick={() => handleButtonClick(1)}> Year 1</button>
+        <button style={{ margin: '0 10px' }} onClick={() => handleButtonClick2()}>Year 2</button>
+        <button style={{ margin: '0 10px' }} onClick={() => handleButtonClick3()}>Year 3</button>
+        <button style={{ margin: '0 10px' }} onClick={() => handleButtonClick4()}>Year 4</button>
+        {/* Add more buttons for different data sets if needed */}
+        {/* Add more buttons for different data sets if needed */}
       </div>
-      <div style={{ flex: 1 }}>
-        <h2>Line Chart</h2>
-        <canvas id="lineChart" width="400" height="400"></canvas>
+      <div style={{ display: 'flex' }}>
+        <div style={{ flex: 1 }}>
+          <h3>Bar Chart</h3>
+          <canvas id="barChart" width="400" height="400"></canvas>
+        </div>
+        <div style={{ flex: 1 }}>
+          <h3>Line Chart</h3>
+          <canvas id="lineChart" width="400" height="400"></canvas>
+        </div>
       </div>
     </div>
   );

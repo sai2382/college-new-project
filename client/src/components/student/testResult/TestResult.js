@@ -10,6 +10,7 @@ const TestResult = () => {
   const user = JSON.parse(localStorage.getItem("user"));
 
   const dispatch = useDispatch();
+  console.log(user.Body);
   useEffect(() => {
     dispatch(
       getTestResult(
