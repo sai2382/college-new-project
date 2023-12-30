@@ -1,7 +1,27 @@
-import React, { useEffect } from 'react';
-import Chart from 'chart.js/auto';
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import Chart from "chart.js/auto"; // Import Chart.js
 
-const Charts = () => {
+const Body = () => {
+
+  const [data2, setData2] = useState([40, 50, 67, 59]);
+
+  const dispatch = useDispatch();
+  const store = useSelector((state) => state);
+  const testResult = useSelector((state) => state.student.testResult.result);
+ 
+// Check if testResult exists and has data before mapping
+const [marksArray, setMarksArray] = useState([]);
+
+  useEffect(() => {
+    if (testResult && testResult.length > 0) {
+      const marks = testResult.map((item) => item.marks);
+      setMarksArray(marks);
+    } else {
+      setMarksArray([]);
+    }
+  }, [testResult]);
+  
   useEffect(() => {
     const destroyChart = (chartInstance) => {
       if (chartInstance) {
@@ -9,28 +29,22 @@ const Charts = () => {
       }
     };
 
-    // Data for the bar chart
     const barData = {
-      labels: ['Test1', 'Test2', 'Test3'],
+      labels: ["Test1", "Test2", "Test3"],
       datasets: [
         {
-          label: 'Mock 1',
-          data: [10, 4, 76],
-          backgroundColor: 'pink',
+          label: "Mock 1",
+          data:marksArray, // Changed data2 to data
+          backgroundColor: "pink",
         },
-        {
-          label: 'Mock 2',
-          data: [10, 4, 77],
-          backgroundColor: 'blue',
-        },
+     
       ],
     };
 
-    // Options for the bar chart
     const barOptions = {
       scales: {
         x: {
-          type: 'category',
+          type: "category",
           labels: barData.labels,
         },
         y: {
@@ -39,25 +53,22 @@ const Charts = () => {
       },
     };
 
-    // Data for the line chart
     const lineData = {
-      labels: ['Test1', 'Test2', 'Test3','Test4','Test5'],
+      labels: ["Test1", "Test2", "Test3", "Test4", "Test5"],
       datasets: [
         {
-          label: 'Line Data',
-          data: [20, 10, 60,75,30],
-          borderColor: 'green',
+          label: "Line Data",
+          data:marksArray, // Changed data2 to data
+          borderColor: "green",
           fill: false,
         },
-       
       ],
     };
 
-    // Options for the line chart
     const lineOptions = {
       scales: {
         x: {
-          type: 'category',
+          type: "category",
           labels: lineData.labels,
         },
         y: {
@@ -66,37 +77,33 @@ const Charts = () => {
       },
     };
 
-    // Get the canvas elements
-    const barCtx = document.getElementById('barChart');
-    const lineCtx = document.getElementById('lineChart');
+    const barCtx = document.getElementById("barChart");
+    const lineCtx = document.getElementById("lineChart");
 
-    // Destroy existing charts if they exist
     const barChartInstance = barCtx && Chart.getChart(barCtx);
     const lineChartInstance = lineCtx && Chart.getChart(lineCtx);
     destroyChart(barChartInstance);
     destroyChart(lineChartInstance);
 
-    // Initialize the Bar chart
     if (barCtx) {
       new Chart(barCtx, {
-        type: 'bar',
+        type: "bar",
         data: barData,
         options: barOptions,
       });
     }
 
-    // Initialize the Line chart
     if (lineCtx) {
       new Chart(lineCtx, {
-        type: 'line',
+        type: "line",
         data: lineData,
         options: lineOptions,
       });
     }
-  }, []); // Run the effect only once after component mount
+  }, [data2]); // Added data2 as a dependency to re-render charts when it changes
 
   return (
-    <div style={{ display: 'flex' }}>
+    <div style={{ display: "flex" }}>
       <div style={{ flex: 1 }}>
         <h2>Bar Chart</h2>
         <canvas id="barChart" width="400" height="400"></canvas>
@@ -109,4 +116,4 @@ const Charts = () => {
   );
 };
 
-export default Charts;
+export default Body;

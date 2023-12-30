@@ -216,10 +216,6 @@ const Charts = () => {
   };
   
 
-
-
-
-
   const renderCharts4 = (data2345) => {
     const barData = {
      labels : Array.from({ length: data2345.length }, (_, index) => `Test${index + 1}`),
