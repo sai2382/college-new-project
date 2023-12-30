@@ -5,26 +5,33 @@ import Spinner from "../../utils/Spinner";
 const Charts = () => {
   const [dataset1, setDataset1] = useState([]);
   const [data2, setd1] = useState([40,50,67,59]);
-  const [data234, setd12] = useState([40,50,77.42]);
+  const [data234, setd12] = useState([40,50,77]);
   const [data2345, setd123] = useState([40,77,71,59]);
   const [loading, setLoading] = useState(false);
 
+
+
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchData2 = async () => {
       try {
         setLoading(true);
-        const url = 'http://localhost:5000/api/admin/getstudent12';
-        const response = await fetch(url, { method: 'GET' });
-
+        const url = 'http://localhost:5000/api/admin/Marks123';
+        const postData = {
+          year: 4
+        };
+  
+        const response = await fetch(url, { method: 'POST', headers: {'Content-Type': 'application/json'  },   body: JSON.stringify(postData) });
+  
         if (!response.ok) {
           throw new Error('Network response was not ok.');
         }
-
+  
         const data = await response.json();
-
+  
         if (Array.isArray(data.result)) {
-          const dataset = data.result.map(item => item.marks);
-          setDataset1(dataset);
+          const marksArray = data.result.map(item => item.marks);
+             setd1(marksArray)
+           // console.log(marksArray)
         } else {
           console.log('Data.result is not an array:', data.result);
         }
@@ -34,16 +41,123 @@ const Charts = () => {
         setLoading(false);
       }
     };
-
-    fetchData();
+  
+    fetchData2();
   }, []);
+  
+  useEffect(() => {
+    const fetchData3 = async () => {
+      try {
+        setLoading(true);
+        const url = 'http://localhost:5000/api/admin/Marks123';
+        const postData = {
+          year: 3
+        };
+  
+        const response = await fetch(url, { method: 'POST', headers: {'Content-Type': 'application/json'  },   body: JSON.stringify(postData) });
+  
+        if (!response.ok) {
+          throw new Error('Network response was not ok.');
+        }
+  
+        const data = await response.json();
+  
+        if (Array.isArray(data.result)) {
+          const marksArray = data.result.map(item => item.marks);
+             setd12(marksArray)
+           // console.log(marksArray)
+        } else {
+          console.log('Data.result is not an array:', data.result);
+        }
+      } catch (error) {
+        console.log('Error:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+  
+    fetchData3();
+  }, []);
+
+
+  
+  useEffect(() => {
+    const fetchData4 = async () => {
+      try {
+        setLoading(true);
+        const url = 'http://localhost:5000/api/admin/Marks123';
+        const postData = {
+          year: 2
+        };
+  
+        const response = await fetch(url, { method: 'POST', headers: {'Content-Type': 'application/json'  },   body: JSON.stringify(postData) });
+  
+        if (!response.ok) {
+          throw new Error('Network response was not ok.');
+        }
+  
+        const data = await response.json();
+  
+        if (Array.isArray(data.result)) {
+          const marksArray = data.result.map(item => item.marks);
+             setd123(marksArray)
+           // console.log(marksArray)
+        } else {
+          console.log('Data.result is not an array:', data.result);
+        }
+      } catch (error) {
+        console.log('Error:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+  
+    fetchData4();
+  }, []);
+
+  useEffect(() => {
+    const fetchData1 = async () => {
+      try {
+        setLoading(true);
+        const url = 'http://localhost:5000/api/admin/Marks123';
+        const postData = {
+          year: 1
+        };
+  
+        const response = await fetch(url, { method: 'POST', headers: {'Content-Type': 'application/json'  }, body: JSON.stringify(postData) });
+  
+        if (!response.ok) {
+          throw new Error('Network response was not ok.');
+        }
+  
+        const data = await response.json();
+  
+        if (Array.isArray(data.result)) {
+          const marksArray = data.result.map(item => item.marks);
+          setDataset1(marksArray);
+           // console.log(marksArray)
+        } else {
+          console.log('Data.result is not an array:', data.result);
+        }
+      } catch (error) {
+        console.log('Error:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+  
+    fetchData1();
+  }, []);
+
+
+ 
 
   const destroyChart = (chartInstance) => {
     if (chartInstance) {
       chartInstance.destroy();
     }
   };
-
+   
   const renderCharts = (data) => {
     const barData = {
      labels : Array.from({ length: data.length }, (_, index) => `Test${index + 1}`),
@@ -112,7 +226,7 @@ const Charts = () => {
       datasets: [
         {
           label: 'Mock 1',
-          data:data2345,
+           data2345,
           backgroundColor: 'blue',
         },
       ],
@@ -127,7 +241,7 @@ const Charts = () => {
       datasets: [
         {
           label: 'Line Data',
-          data:data2345,
+          data2345,
           borderColor: 'green',
           fill: false,
         },
@@ -174,7 +288,7 @@ const Charts = () => {
       datasets: [
         {
           label: 'Mock 1',
-          data:data234,
+          data234,
           backgroundColor: 'blue',
         },
       ],
@@ -189,7 +303,7 @@ const Charts = () => {
       datasets: [
         {
           label: 'Line Data',
-          data:data234,
+          data234,
           borderColor: 'green',
           fill: false,
         },
@@ -228,14 +342,14 @@ const Charts = () => {
 
 
 
-  
+
   const renderCharts2 = (data2) => {
     const barData = {
      labels : Array.from({ length: data2.length }, (_, index) => `Test${index + 1}`),
       datasets: [
         {
           label: 'Mock 1',
-          data:data2,
+          data2,
           backgroundColor: 'blue',
         },
       ],
@@ -250,7 +364,7 @@ const Charts = () => {
       datasets: [
         {
           label: 'Line Data',
-          data:data2,
+          data2,
           borderColor: 'green',
           fill: false,
         },
@@ -301,12 +415,12 @@ const Charts = () => {
   const handleButtonClick3 = () => {
     // Handle different data sets based on buttonNumber
     // For now, let's assume buttonNumber 1 corresponds to dataset1
-    renderCharts(data234);
+    renderCharts3(data234);
   };
   const handleButtonClick4 = () => {
     // Handle different data sets based on buttonNumber
     // For now, let's assume buttonNumber 1 corresponds to dataset1
-    renderCharts(data2345);
+    renderCharts4(data2345);
   };
   return (
     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom: '20px' }}>

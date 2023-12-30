@@ -7,6 +7,9 @@ import Notice from "../models/notice.js";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
 import marks from "../models/marks.js";
+import Test from "../models/test.js";
+import Marks from "../models/marks.js";
+import Attendence from "../models/attendance.js";
 
 export const adminLogin = async (req, res) => {
   const { username, password } = req.body;
@@ -627,6 +630,46 @@ export const getAllAdmin = async (req, res) => {
     console.log("Backend Error", error);
   }
 };
+
+export const Marks123 = async (req, res) => {
+  try {
+    const {  year  } = req.body;
+
+    const errors = { notestError: String };
+    const student = await Student.findOne({  year });
+    const test = await Test.find({  year });
+      console.log(test.length);
+    if (test.length==0) {
+      errors.notestError = "No Test Found";
+      return res.status(404).json(errors);
+    }
+    
+    var result = [];
+    for (var i = 0; i < test.length; i++) {
+    
+      var marks = await Marks.findOne({
+        student: student._id,
+        exam: test[i]._id,
+      });
+
+      if (marks) {
+        var temp = {
+          marks: marks.marks,
+          test: test[i].test,
+        };
+        result.push(temp);
+       
+      }
+    }
+
+    res.status(200).json({ result });
+  } catch (error) {
+    res.status(500).json(error);
+  }
+};
+
+
+
 export const getAllDepartment = async (req, res) => {
   try {
     const departments = await Department.find();
