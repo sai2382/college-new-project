@@ -1,17 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import Chart from "chart.js/auto"; // Import Chart.js
+import Chart from "chart.js/auto";
 
 const Body = () => {
-
   const [data2, setData2] = useState([40, 50, 67, 59]);
-
   const dispatch = useDispatch();
   const store = useSelector((state) => state);
   const testResult = useSelector((state) => state.student.testResult.result);
- 
-// Check if testResult exists and has data before mapping
-const [marksArray, setMarksArray] = useState([]);
+  
+  // Check if testResult exists and has data before mapping
+  const [marksArray, setMarksArray] = useState([]);
 
   useEffect(() => {
     if (testResult && testResult.length > 0) {
@@ -21,7 +19,10 @@ const [marksArray, setMarksArray] = useState([]);
       setMarksArray([]);
     }
   }, [testResult]);
-  
+
+  const barChartRef = useRef(null);
+  const lineChartRef = useRef(null);
+
   useEffect(() => {
     const destroyChart = (chartInstance) => {
       if (chartInstance) {
@@ -30,14 +31,13 @@ const [marksArray, setMarksArray] = useState([]);
     };
 
     const barData = {
-      labels: ["Test1", "Test2", "Test3"],
+      labels : Array.from({ length: marksArray.length }, (_, index) => `Test${index + 1}`),
       datasets: [
         {
           label: "Mock 1",
-          data:marksArray, // Changed data2 to data
+          data: marksArray,
           backgroundColor: "pink",
         },
-     
       ],
     };
 
@@ -54,11 +54,11 @@ const [marksArray, setMarksArray] = useState([]);
     };
 
     const lineData = {
-      labels: ["Test1", "Test2", "Test3", "Test4", "Test5"],
+      labels : Array.from({ length: marksArray.length }, (_, index) => `Test${index + 1}`),
       datasets: [
         {
           label: "Line Data",
-          data:marksArray, // Changed data2 to data
+          data: marksArray,
           borderColor: "green",
           fill: false,
         },
@@ -77,40 +77,36 @@ const [marksArray, setMarksArray] = useState([]);
       },
     };
 
-    const barCtx = document.getElementById("barChart");
-    const lineCtx = document.getElementById("lineChart");
+    const barCtx = barChartRef.current.getContext("2d");
+    const lineCtx = lineChartRef.current.getContext("2d");
 
-    const barChartInstance = barCtx && Chart.getChart(barCtx);
-    const lineChartInstance = lineCtx && Chart.getChart(lineCtx);
-    destroyChart(barChartInstance);
-    destroyChart(lineChartInstance);
+    const barChartInstance = barChartRef.current && new Chart(barCtx, {
+      type: "bar",
+      data: barData,
+      options: barOptions,
+    });
 
-    if (barCtx) {
-      new Chart(barCtx, {
-        type: "bar",
-        data: barData,
-        options: barOptions,
-      });
-    }
+    const lineChartInstance = lineChartRef.current && new Chart(lineCtx, {
+      type: "line",
+      data: lineData,
+      options: lineOptions,
+    });
 
-    if (lineCtx) {
-      new Chart(lineCtx, {
-        type: "line",
-        data: lineData,
-        options: lineOptions,
-      });
-    }
-  }, [data2]); // Added data2 as a dependency to re-render charts when it changes
+    return () => {
+      destroyChart(barChartInstance);
+      destroyChart(lineChartInstance);
+    };
+  }, [marksArray]);
 
   return (
     <div style={{ display: "flex" }}>
       <div style={{ flex: 1 }}>
         <h2>Bar Chart</h2>
-        <canvas id="barChart" width="400" height="400"></canvas>
+        <canvas ref={barChartRef} width="400" height="400"></canvas>
       </div>
       <div style={{ flex: 1 }}>
         <h2>Line Chart</h2>
-        <canvas id="lineChart" width="400" height="400"></canvas>
+        <canvas ref={lineChartRef} width="400" height="400"></canvas>
       </div>
     </div>
   );
