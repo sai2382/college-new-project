@@ -14,12 +14,13 @@ const Body = () => {
   const [open, setOpen] = useState(false);
   const [openNotice, setOpenNotice] = useState({});
   const notices = useSelector((state) => state.admin.notices.result);
+
   const testResult = useSelector((state) => state.student.testResult.result);
   const attendance = useSelector((state) => state.student.attendance.result);
   const user = JSON.parse(localStorage.getItem("user"));
   const subjects = useSelector((state) => state.admin.subjects.result);
   var totalAttendance = 0;
-  console.log(attendance);
+  console.log(notices);
 
   attendance?.map((att) => (totalAttendance += att.attended));
 
