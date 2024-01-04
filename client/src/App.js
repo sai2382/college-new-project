@@ -7,7 +7,7 @@ import AddStudent from "./components/admin/addStudent/AddStudent";
 import AddSubject from "./components/admin/addSubject/AddSubject";
 import AdminHome from "./components/admin/AdminHome";
 import AdminHome2 from "./components/admin/AdminHome2";
-import Adminfeed from "C:/Users/devun/OneDrive/Desktop/College-Erp-main new/College-Erp-main/client/src/components/admin/feedback";
+import Adminfeed from "./components/admin/feedback";
 
 import GetFaculty from "./components/admin/getFaculty/GetFaculty";
 import GetStudent from "./components/admin/getStudent/GetStudent";
